@@ -1,0 +1,10 @@
+
+if [ ! -e /home/n ] ; then
+	echo "0" > /home/n
+fi
+
+N=$(($(cat /home/n) + 1))
+echo $N > /home/n
+
+/home/opkg/usr/sbin/tcpdump -i wlan0 -B 100 -e -q -s 100 -w "/home/data/${N}_dump" -C 1 &
+
