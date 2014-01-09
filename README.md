@@ -36,25 +36,25 @@ sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 If the settings are not stored, this needs to be run after each boot. A great article on the ubuntu help center describes the above steps in more detail and some information on how to persist the changes: https://help.ubuntu.com/community/Internet/ConnectionSharing.
 
-A device with a clean OpenWrt installation should resolve itself to 192.168.0.1, which is the address used in the scripts. 
+A device with a clean OpenWrt installation should resolve itself to 192.168.0.1, which should probably be changed if you are setting up multiple devices. 
 
 ## Device configuration
-To be able to connect to the device via the shell and ethernet you need to configure the OpenWrt configuration. This can be automated, but it is simple to just log in to the interface, by pointing a browser to 192.168.0.1. When logging in the first time, no password should be needed.
+To be able to connect to the device via the shell and ethernet you need to configure the OpenWrt configuration. This can be automated, but it is simpler to just log in to the interface, by pointing a browser to 192.168.0.1. When logging in the first time, no password should be needed.
 
-First you should set the password of the device, so it can be accessed via ssh. This can be done in the systems-tab under administration.
+First you should set the password of the device, so it can be accessed via ssh. This can be done in the system-tab -> administration.
 
-If you have multiple devices you would probably want to give the ethernet interface another address. As you can see below I have chosen 192.168.0.101 as an example here. But anything goes.
+If you have multiple devices you would probably want to give the ethernet interface another address (in the Network tab). As you can see below I have chosen 192.168.0.101 as an example here. But anything goes.
 
-Lastly it is probably a good idea to synchronize the time. Note that when you change the interface above, the device is no longer available via 192.168.0.1.
+Lastly it is probably a good idea to synchronize the time (in the System-tab). Note that when you change the interface above, the device is no longer available via 192.168.0.1.
 
 ## Installation 
-After configuring the device the last thing to do is to install the monitoring scripts. Assuming you are in the root directory of this repository, simply run the ``setup.sh`` script with the ip of the external device as the single argument, to setup the router for WiFi monitoring. And that's it. So if you have your router at 192.168.0.101:
+After configuring the device the last thing you need to do, is to install the monitoring scripts. Assuming you are in the root directory of this repository, simply run the ``setup.sh`` script with the ip of the external device as the first and only argument. So if you have your router at 192.168.0.101:
 
 ````bash
 ./setup.sh 192.168.0.101
 ````
 
-If something breaks I have included a more elaborate description of the setup which runs in two steps. 
+And that's it. Next time the device starts up, it will start logging in the /home/data dir. If something breaks I have included a more elaborate description of the setup which runs in two steps. 
 
 1. First we need to run the installation-script (``router-setup.sh``) on the device.
 The ````UserKnownHostsFile```` and the ````StrictHostKeyChecking```` options avoids checking and storing the RSA key since we are going to connect to multiple devices with the same IP. 
