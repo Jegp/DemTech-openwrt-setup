@@ -1,27 +1,26 @@
 # Add the gateway to the host machine
 route add default gw 192.168.0.2
 
-# 
+# Adds googles nameserver as address resolver
 printf "search lan\nnameserver 8.8.8.8\n" > /etc/resolv.conf
 
-opkg update
-opkg install kmod-usb-storage \
-     kmod-fs-vfat kmod-fs-ext4 \
-     block-mount kmod-nls-cp437 kmod-nls-iso8859-1
-
-opkg update
+# Create necessary folders
 mkdir /home
-mount /dev/sda1 /home
-mkdir /home/opkg
-mkdir /home/data
+mkdir /tmp/data
 
-sed '4 i dest usb /home/opkg' /etc/opkg.conf > /tmp/opkg.conf
-mv /tmp/opkg.conf /etc/opkg.conf
-
+# Opdate package manager and install necessary packages
 opkg update
 opkg install libcap libpcap
-opkg -d usb install tcpdump
+# Install tcpdump on ram (-d for destination) since it's too big
+# for main memory (!)
+opkg -d ram install tcpdump 
+# Install the custom client package
+opkg install /home/client.ipk
 
-printf "mount /dev/sda1 /home\n/home/capture\n\nexit 0\n" > /etc/rc.local
+# Setup startup-script and a cron job to check wifi liveness
+printf "/home/capture\n\nexit 0\n" > /etc/rc.local
 chmod +x /etc/rc.local
 echo "*/1 * * * * /home/check_alive" > /etc/crontabs/root
+
+# Set permissions for scripts
+chmod +x /home/capture /home/check_alive /home/postprocess

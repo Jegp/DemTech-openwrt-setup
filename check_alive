@@ -2,7 +2,7 @@
 echo "$(/bin/date +'%H:%M:%S'): Running check_alive" >> /home/log
 
 # Compare sizez
-SIZE=`du /home/data/$(ls /home/data/ -t | cut -f1 | head -n 1) | cut -f1`
+SIZE=`du /tmp/data/$(ls /home/data/ -t | cut -f1 | head -n 1) | cut -f1`
 OLD_SIZE_FILE=/home/old_size
 OLD_SIZE=`cat $OLD_SIZE_FILE`
 
@@ -13,6 +13,10 @@ if [ $SIZE -eq $OLD_SIZE ] ; then
 	PID=$(/usr/bin/pgrep tcpdump)
 	/etc/init.d/network restart 1>>/home/log 2>>/home/log
 	/sbin/wifi 1>>/home/log 2>>/home/log
+
+        # Process remaining data
+        /home/postprocess /tmp/data/*
+        # Restart capture
 	/home/capture
 	kill -9 $PID
 fi
