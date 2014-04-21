@@ -1,4 +1,5 @@
 import hashlib
+import sys
 
 def getCode(imei, salt):
     digest = hashlib.md5((imei+salt).lower()).digest()
@@ -10,7 +11,6 @@ def getCode(imei, salt):
     return code
 
 # Your IMEI goes here:
-imei = "867989013465121"
+imei = sys.argv[1]
 
-print "Unlock code: %s" % getCode(imei, "5e8dd316726b0335")
-print "Flash code: %s" % getCode(imei, "97b7bc6be525ab44")
+print "%s" % getCode(imei, "5e8dd316726b0335")
