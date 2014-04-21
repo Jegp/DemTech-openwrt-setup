@@ -34,6 +34,9 @@ opkg install kmod-usb-serial kmod-usb-serial-option kmod-usb-serial-wwan
 ## Setup 3G dongle
 ##
 
+# Initialize the right drivers on detection
+echo "usbserial vendor=0x12d1 product=0x1001" > /etc/modules.d/60-usb-serial
+
 # Setup the dongle driver with the right info about the E353 device
 # Add usb modeswitch config for the Huawei dongle
 printf "# Huawei E3131 E3231 E353ws-2\nTargetVendor=  0x12d1\n\
