@@ -42,7 +42,7 @@ echo "usbserial vendor=0x12d1 product=0x1001" > /etc/modules.d/usb-serial
 
 # Setup the dongle driver with the right info about the E353 device
 sed -i '68i              ,"55534243ee0000006000000000000611063000000000000100000000000000"' /etc/usb-mode.json
-sed -e "1349s/24/64/" /etc/usb-mode.json
+sed -e "1349s/29/64/" /etc/usb-mode.json > /etc/usb-mode.json
 
 # Setup network information
 sed -i '14i config interface \'ppp0\'' /etc/config/network
