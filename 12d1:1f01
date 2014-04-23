@@ -1,7 +1,0 @@
-# Huawei E3131 E3231 E353ws-2
- 
-TargetVendor=  0x12d1
-TargetProduct= 0x1001
- 
-MessageContent="55534243ee0000006000000000000611063000000000000100000000000000"
-NoDriverLoading=0 
