@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Post-processes data in the file given by the first parameter
+# 1: Send the file to the remote host
+# 2: Delete the file
+
+echo "Dumping file $1 to 192.168.0.2"
+
+/tmp/usr/sbin/tcpdump -neql -r $1 | client 192.168.0.2
+
+rm $1
