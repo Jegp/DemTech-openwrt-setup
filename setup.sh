@@ -9,7 +9,7 @@
 
 ## Check number of arguments
 if [ $# -lt 4 ] ; then
-	echo "A script to install monitoring tools on external router."
+	echo "A script to install monitoring tools on an external router."
 	echo "Must be run as root to alter ip-tables."
 	echo ""
 	echo "Usage: setup.sh   client-address host-address PIN-code"
