@@ -51,8 +51,8 @@ testError "Error when connecting to router on $1"
 
 ## Move the client program, capture, check_alive and setup scripts
 scp -r -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-    scripts/client.ipk scripts/capture scripts/check_alive scripts/postprocess \
-    root@$1:/home
+    scripts/capture.sh scripts/check_alive.sh scripts/postprocess.sh \
+    root@$1:/root/
 
 testError "Error when copying to router."
 
@@ -64,8 +64,14 @@ testError "Error when running running router setup."
 
 ## Execute the 3G setup script on the device
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-    root@$1 'ash -s' < scripts/setup_3G.sh $2 $3
+    root@$1 'ash -s' < scripts/setup_3G.sh $2
 
 testError "Error when running running 3G setup."
+
+## Execute the monitoring setup script on the device
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+    root@$1 'ash -s' < scripts/setup_monitoring.sh $3
+
+testError "Error when running setting up monitoring tools."
 
 echo "Setup succesful"
