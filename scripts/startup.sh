@@ -3,7 +3,7 @@
 ## A startup script for an OpenWRT router monitoring wifi
 ## traffic and sending it to a remote server
 ##
-## Author: <jensep@gmail.com>
+v## Author: <jensep@gmail.com>
 
 if [ $# -ne 1 ] ; then
 	echo "Usage: startup.sh host-ip"
@@ -41,6 +41,15 @@ fi
 N=$(($(cat /root/n) + 1))
 echo $N > /root/n
 
+# Bring up interface
+iw phy phy0 interface add moni0 type monitor
+ifconfig moni0 up
+
+if [ $? -ne 0 ] ; then
+	echo "Unable to start wifi monitoring"
+	exit 3
+fi
+
 # Start tcpdump with flags:
 # -i      The interface
 # -B 100  Buffer size of the OS to limit consumption
@@ -53,5 +62,5 @@ echo $N > /root/n
 # -z      A script to post-proccess the rotated files (from the w option)
 #         - sends the file over the network and deletes it
 /tmp/usr/sbin/tcpdump \
-    -i wlan0 -B 100 -w "/tmp/data/${N}_dump" -C 1 -neq -s 0 \
+    -i moni0 -B 100 -w "/tmp/data/${N}_dump" -C 1 -neq -s 0 \
     -z /root/postprocess &
