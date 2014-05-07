@@ -19,7 +19,7 @@ opkg install libcap libpcap
 mkdir /tmp/data
 
 # Setup startup-script and a cron job to check wifi liveness
-printf "/root/startup.sh $1\n\nexit 0\n" > /etc/rc.local
+printf "/root/startup.sh $1 &\n\nexit 0\n" > /etc/rc.local
 chmod +x /etc/rc.local
 echo "*/1 * * * * /root/check_alive.sh" > /etc/crontabs/root
 

@@ -3,7 +3,7 @@
 ## A startup script for an OpenWRT router monitoring wifi
 ## traffic and sending it to a remote server
 ##
-v## Author: <jensep@gmail.com>
+## Author: <jensep@gmail.com>
 
 if [ $# -ne 1 ] ; then
 	echo "Usage: startup.sh host-ip"
@@ -24,43 +24,18 @@ fi
 
 # This should initiate the ppp0 interface
 # Now we sleep a while to let it activate
-sleep 5
+sleep 30
 
 # Install tcpdump on ram (-d for destination) since it's too big
 # for main memory (!)
 opkg update
 opkg -d ram install tcpdump
 
-# Create a counter to keep track of (possible) different
-# running instances across boots
-if [ ! -e /root/n ] ; then
-	echo "0" > /root/n
-fi
+# Create data folder
+mkdir /tmp/data
 
-# Increment the counter
-N=$(($(cat /root/n) + 1))
-echo $N > /root/n
+# Write the hostname to a file
+echo $1 > /root/host
 
-# Bring up interface
-iw phy phy0 interface add moni0 type monitor
-ifconfig moni0 up
-
-if [ $? -ne 0 ] ; then
-	echo "Unable to start wifi monitoring"
-	exit 3
-fi
-
-# Start tcpdump with flags:
-# -i      The interface
-# -B 100  Buffer size of the OS to limit consumption
-# -w      Binary output file
-# -C      Capture size before file-rotation (in kB)
-# -n      Don't resolve addresses
-# -e      Include link-level headers
-# -q      Quiet means reduced output (not really sure what it does)
-# -s      Package size (we don't care about the actual data)
-# -z      A script to post-proccess the rotated files (from the w option)
-#         - sends the file over the network and deletes it
-/tmp/usr/sbin/tcpdump \
-    -i moni0 -B 100 -w "/tmp/data/${N}_dump" -C 1 -neq -s 0 \
-    -z /root/postprocess &
+# Start capturing
+/root/capture.sh

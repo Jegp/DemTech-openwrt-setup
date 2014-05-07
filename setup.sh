@@ -54,7 +54,7 @@ testError "Error when connecting to router on $1"
 ##
 scp -r -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
     scripts/capture.sh scripts/check_alive.sh scripts/postprocess.sh \
-    root@$1:/root/
+    scripts/startup.sh root@$1:/root/
 
 testError "Error when copying to router."
 
