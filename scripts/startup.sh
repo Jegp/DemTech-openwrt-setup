@@ -11,14 +11,15 @@ if [ $# -ne 1 ] ; then
 fi
 
 # Setup the 3G dongle drivers
-insmod vendor=0x12d1 product=0x1001
+insmod usbserial vendor=0x12d1 product=0x1001
 insmod usb_wwan
 insmod option
 
 # Test that the device and its interfaces exists
 ls /dev/ttyUSB0 /dev/ttyUSB1 /dev/ttyUSB2
-if [ $! -ne 0 ] ; then
+if [ $? -ne 0 ] ; then
 	echo "Error when loading driver"
+	exit 2
 fi
 
 # This should initiate the ppp0 interface
@@ -53,5 +54,4 @@ echo $N > /root/n
 #         - sends the file over the network and deletes it
 /tmp/usr/sbin/tcpdump \
     -i wlan0 -B 100 -w "/tmp/data/${N}_dump" -C 1 -neq -s 0 \
-    -z /root/postprocess & 
-
+    -z /root/postprocess &

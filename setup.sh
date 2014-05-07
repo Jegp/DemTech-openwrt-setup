@@ -49,12 +49,22 @@ ping -c 2 $1 1>/dev/null
 
 testError "Error when connecting to router on $1"
 
+##
 ## Move the client program, capture, check_alive and setup scripts
+##
 scp -r -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
     scripts/capture.sh scripts/check_alive.sh scripts/postprocess.sh \
     root@$1:/root/
 
 testError "Error when copying to router."
+
+##
+## Execute the installation scripts
+##
+
+function run_script() {
+    
+}
 
 ## Execute the router setup script on the device
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \

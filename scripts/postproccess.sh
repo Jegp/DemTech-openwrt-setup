@@ -15,7 +15,7 @@ echo "Sending file $1 to $2"
 scp -i /root/sshkey $1 $2:~/data/$1
 
 if [ $? -ne 0 ] ; then
-    echo "Warning: Failed to send data to $2. Error: $?"
+    echo "Warning: Failed to send data to $2. Error: $?" >> /tmp/log
 fi
 
 rm $1
