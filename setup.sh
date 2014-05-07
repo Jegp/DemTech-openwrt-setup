@@ -63,24 +63,23 @@ testError "Error when copying to router."
 ##
 
 function run_script() {
-    
+    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+    root@$1 'ash -s' < $2 $3
 }
 
 ## Execute the router setup script on the device
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-    root@$1 'ash -s' < scripts/setup_router.sh $1
+run_script $1 scripts/setup_router.sh $1
 
 testError "Error when running running router setup."
 
 ## Execute the 3G setup script on the device
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-    root@$1 'ash -s' < scripts/setup_3G.sh $2
+
+run_script $1 scripts/setup_3G.sh $2
 
 testError "Error when running running 3G setup."
 
 ## Execute the monitoring setup script on the device
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-    root@$1 'ash -s' < scripts/setup_monitoring.sh $3
+run_script $1 scripts/setup_monitoring.sh $3
 
 testError "Error when running setting up monitoring tools."
 

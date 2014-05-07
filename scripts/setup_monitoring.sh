@@ -11,19 +11,17 @@ if [ $# -ne 1 ] ; then
 	echo "Usage: setup_monitoring.sh host-address"
 fi
 
-# Install necessary packages
+# Install necessary packages (needed by tcpdump)
+# Tcpdump will be installed on every boot
 opkg install libcap libpcap
-# Install tcpdump on ram (-d for destination) since it's too big
-# for main memory (!)
-opkg -d ram install tcpdump
 
 # Create necessary folders
 mkdir /tmp/data
 
 # Setup startup-script and a cron job to check wifi liveness
-printf "/root/startup.sh\n\nexit 0\n" > /etc/rc.local
+printf "/root/startup.sh $1\n\nexit 0\n" > /etc/rc.local
 chmod +x /etc/rc.local
 echo "*/1 * * * * /root/check_alive.sh" > /etc/crontabs/root
 
 # Set permissions for scripts
-chmod +x /root/capture.sh /root/check_alive.sh /root/postprocess.sh
+chmod +x /root/startup.sh /root/check_alive.sh /root/postprocess.sh

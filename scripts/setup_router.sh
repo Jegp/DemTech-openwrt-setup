@@ -20,7 +20,7 @@ route add default gw $1
 # Adds googles nameserver as address resolver
 printf "search lan\nnameserver 8.8.8.8\n" > /etc/resolv.conf
 
-# Opdate package manager and install necessary packages
+# Opdate package manager to prepare for the next steps
 opkg update
 
 if [ $? -ne 0 ] ; then
