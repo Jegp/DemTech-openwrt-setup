@@ -14,6 +14,11 @@ if [ $# -ne 1 ] ; then
 	exit 1
 fi
 
+## Configure public key auth
+[ -f /etc/dropbear/authorized_keys ] && sed -i 's/on/off/g' /etc/config/dropbear || exit 2
+
+## Config internet access and opkg
+
 # Add the gateway to the host machine
 route add default gw $1
 
@@ -25,5 +30,5 @@ opkg update
 
 if [ $? -ne 0 ] ; then
 	echo "Failure when updating opkg"
-	exit 2
+	exit 3
 fi

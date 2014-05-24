@@ -27,7 +27,7 @@ echo "Sending file $1 to $HOST"
 /tmp/usr/sbin/tcpdump -neql -r $1 > "/tmp/$TMP"
 
 # Send the file to the host
-scp -i /root/sshkey "/tmp/$TMP" openwrt@$HOST:~/data/$TMP
+scp -i /root/sshkey "/tmp/$TMP" carsten@$HOST:~/data/$TMP
 
 #
 if [ $? -ne 0 ] ; then

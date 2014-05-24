@@ -4,7 +4,7 @@
 ## on the host machine
 ## Parameters: Interface to send data from the device (on eth0) to
 ## Example: Sending data from the router to wlan1 is
-## 	'routing wlan1'
+##	'routing wlan1'
 ##
 
 if [ $# -ne 2 ] ; then

@@ -24,4 +24,5 @@ chmod +x /etc/rc.local
 echo "*/1 * * * * /root/check_alive.sh" > /etc/crontabs/root
 
 # Set permissions for scripts
-chmod +x /root/startup.sh /root/check_alive.sh /root/postprocess.sh
+chmod +x /root/startup.sh /root/check_alive.sh \
+  /root/postprocess.sh /root/capture.sh
